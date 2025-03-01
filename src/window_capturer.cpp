@@ -215,6 +215,7 @@ bool WindowCapturer::CreateCaptureSession() {
         m_captureSession.IsCursorCaptureEnabled(false);
     } else {
         LOG_INFO("Cursor capture setting not available on this Windows version");
+        WindowUtils::HideCursor();  // 使用WindowUtils提供的鼠标隐藏功能
     }
     
     if (winrt::Windows::Foundation::Metadata::ApiInformation::IsPropertyPresent(
@@ -264,6 +265,8 @@ void WindowCapturer::ProcessFrameArrived(ID3D11Texture2D* texture) {
                 LOG_DEBUG("Cleanup timer triggered, stopping capture");
                 Cleanup();
             });
+
+            WindowUtils::ShowCursor();
         }
     }
 }
